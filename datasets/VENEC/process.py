@@ -84,22 +84,22 @@ def main(input_dir: Path, resample: bool):
         resample_audio(paths, resample_dir)
     write_filelist(resample_dir.glob("*.wav"), "files_all")
 
-    clip_info = pd.read_csv(
-        input_dir / "veneccountryinfo.csv",
-        index_col=0,
-        names=["Filename", "Country", "Original"],
-    )
-    clip_info.index = clip_info.index.map(lambda x: x[:-4])
+    # clip_info = pd.read_csv(
+    #     input_dir / "veneccountryinfo.csv",
+    #     index_col=0,
+    #     names=["Filename", "Country", "Original"],
+    # )
+    # clip_info.index = clip_info.index.map(lambda x: x[:-4])
 
     # Acted labels
-    write_annotations(
-        clip_info["Original"].map(lambda x: Path(x).stem).map(get_emotion).to_dict(),
-        "label",
-    )
-    write_annotations(
-        clip_info["Original"].map(lambda x: Path(x).parts[0].split("_")[0]).to_dict(),
-        "intensity",
-    )
+    # write_annotations(
+    #     clip_info["Original"].map(lambda x: Path(x).stem).map(get_emotion).to_dict(),
+    #     "label",
+    # )
+    # write_annotations(
+    #     clip_info["Original"].map(lambda x: Path(x).parts[0].split("_")[0]).to_dict(),
+    #     "intensity",
+    # )
 
     def get_ratings(country: str = "USA") -> pd.DataFrame:
         csvfile = input_dir / f"CategoryRatings{country}.csv"
@@ -116,10 +116,10 @@ def main(input_dir: Path, resample: bool):
         agreement = ratings["Freq"].mean()
         print(f"Mean label agreement: {agreement:.3f}")
 
-        ratings = ratings.join(clip_info)
-        ratings["Country"] = ratings["Country"].map(str.upper)
+        # ratings = ratings.join(clip_info)
+        # ratings["Country"] = ratings["Country"].map(str.upper)
         # Correct the three errors where country is STR
-        ratings.loc[ratings["Country"] == "STR", "Country"] = "AUS"
+        # ratings.loc[ratings["Country"] == "STR", "Country"] = "AUS"
         # Intensity is High or Medium
         ratings["Intensity"] = ratings["Original"].map(
             lambda x: Path(x).parts[0].split("_")[0]
@@ -134,7 +134,7 @@ def main(input_dir: Path, resample: bool):
             ratings["Original"].map(lambda x: Path(x).stem).map(get_emotion)
         )
         del ratings["Original"]
-        del ratings["Country"]
+        # del ratings["Country"]
         del ratings["Speaker_No"]
 
         # Remove 'neutral' since it has only 10 clips, in medium

@@ -7,6 +7,6 @@
 
 SCRIPT_DIR=$(dirname "$0")
 
-"$SCRIPT_DIR"/acoustic.sh
-"$SCRIPT_DIR"/boaw.sh
+#"$SCRIPT_DIR"/acoustic.sh
+#"$SCRIPT_DIR"/boaw.sh
 "$SCRIPT_DIR"/embeddings.sh

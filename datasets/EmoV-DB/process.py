@@ -1,10 +1,12 @@
-"""Process the raw EMOVO dataset.
+"""Process the raw EmoV-DB dataset.
 
 This assumes the file structure from the original compressed file:
 /.../
-    f1/
-        *.wav
-    m1/
+    bea/
+        amused/
+            *.wav
+    jenie/
+        aud_am
         *.wav
     ...
 """

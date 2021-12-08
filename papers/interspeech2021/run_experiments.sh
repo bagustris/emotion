@@ -7,12 +7,13 @@
 # Only report TF internal errors (quite spammy otherwise)
 export TF_CPP_MIN_LOG_LEVEL=2
 
-all_corpora=(CaFE CREMA-D DEMoS EMO-DB EmoFilm eNTERFACE IEMOCAP JL MSP-IMPROV Portuguese RAVDESS SAVEE ShEMO SmartKom TESS URDU VENEC)
+all_corpora=(CaFE DEMoS EmoFilm IEMOCAP MSP-IMPROV Portuguese RAVDESS SAVEE ShEMO TESS URDU)
+# all_corpora="ls features"
 BASE_DIR="$(dirname "$0")"
 SCRIPTS_DIR="$BASE_DIR/../../scripts"
 EXP_SCRIPT="$SCRIPTS_DIR/training/class_cv.py"
 DATASETS_DIR="$BASE_DIR/../../datasets"
-FEATURES_DIR="$BASE_DIR/../../features"
+FEATURES_DIR="$BASE_DIR/features"
 RESULTS_DIR="$BASE_DIR/results"
 CONF_DIR="$BASE_DIR/../../conf"
 
@@ -88,7 +89,7 @@ run_test() {
 
 for corpus in "${all_corpora[@]}"; do
     corpus_yaml="$DATASETS_DIR/$corpus/corpus.yaml"
-    for features in IS09 IS13 eGeMAPS GeMAPS mean_mfcc_64 boaw_20_500 boaw_50_1000 boaw_100_5000 audeep wav2vec wav2vec2 vq-wav2vec yamnet vggish densenet121 densenet169 densenet201; do
+    for features in wav2vec wav2vec2 vq-wav2vec yamnet vggish densenet121 densenet169 densenet201; do
         for svm in linear poly2 poly3 rbf; do
             run_test "$corpus" $features sk/svm svm_$svm "$CONF_DIR/clf/sk/svm/$svm.yaml" "$CONF_DIR/clf/sk/svm/grids/$svm.yaml"
         done
